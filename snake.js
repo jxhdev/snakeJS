@@ -1,7 +1,7 @@
 const SCALE = 20;
 const WIDTH = 30;
 const HEIGHT = 30;
-const SPEED = 400;
+const SPEED = 100;
 
 /** One-time setup: find HTML canvas element */
 
