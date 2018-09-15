@@ -5,10 +5,11 @@ const SPEED = 400;
 
 /** One-time setup: find HTML canvas element */
 
+let gameOver = true;
 const canvas = document.getElementById('board');
 canvas.setAttribute('height', HEIGHT * SCALE);
 canvas.setAttribute('width', WIDTH * SCALE);
-const ctx = canvas.getContext('2d');
+let ctx = canvas.getContext('2d');
 
 /** Point: */
 
@@ -163,6 +164,7 @@ class Game {
   }
 
   play() {
+    gameOver = false;
     document.addEventListener('keydown', this.keyListener);
     this.interval = window.setInterval(this.tick.bind(this), SPEED);
   }
@@ -223,6 +225,7 @@ class Game {
     } else {
       window.clearInterval(this.interval);
       window.removeEventListener('keydown', this.keyListener);
+      gameOver = true;
     }
   }
 }
@@ -255,13 +258,39 @@ const snake4 = new Snake(
   'pink'
 );
 
-let game1 = new Game([snake1]);
-let game2 = new Game([snake1, snake2]);
-
 function playButton() {
-  if (document.getElementById('numPlayers').value === '1') {
-    game1.play();
-  } else {
-    game2.play();
+  let snake1 = new Snake(
+    {
+      ArrowLeft: 'left',
+      ArrowRight: 'right',
+      ArrowUp: 'up',
+      ArrowDown: 'down'
+    },
+    new Point(2, 2),
+    'right',
+    'red'
+  );
+
+  let snake2 = new Snake(
+    { a: 'left', d: 'right', w: 'up', s: 'down' },
+    new Point(18, 18),
+    'left',
+    'blue'
+  );
+  if (gameOver) {
+    if (document.getElementById('numPlayers').value === '1') {
+      canvas.setAttribute('height', HEIGHT * SCALE);
+      canvas.setAttribute('width', WIDTH * SCALE);
+      ctx = canvas.getContext('2d');
+
+      let game1 = new Game([snake1]);
+      game1.play();
+    } else {
+      canvas.setAttribute('height', HEIGHT * SCALE);
+      canvas.setAttribute('width', WIDTH * SCALE);
+      ctx = canvas.getContext('2d');
+      let game2 = new Game([snake1, snake2]);
+      game2.play();
+    }
   }
 }
