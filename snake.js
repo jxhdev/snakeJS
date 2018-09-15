@@ -174,11 +174,9 @@ class Game {
   }
 
   removeFood(pellet) {
-    console.log('food before', this.food);
     this.food = this.food.filter(
       f => f.pt.x !== pellet.pt.x || f.pt.y !== pellet.pt.y
     );
-    console.log('food after', this.food);
   }
   moveSnakes() {
     for (let snake of this.snakes) {
@@ -215,7 +213,6 @@ class Game {
   }
 
   tick() {
-    console.log('tick');
     if (this.noDeadSnakes() && this.noSnakeCollision()) {
       ctx.clearRect(0, 0, SCALE * WIDTH, SCALE * HEIGHT);
       for (const f of this.food) {
@@ -233,7 +230,8 @@ class Game {
 const snake1 = new Snake(
   { ArrowLeft: 'left', ArrowRight: 'right', ArrowUp: 'up', ArrowDown: 'down' },
   new Point(2, 2),
-  'right'
+  'right',
+  'red'
 );
 
 const snake2 = new Snake(
@@ -257,5 +255,13 @@ const snake4 = new Snake(
   'pink'
 );
 
-const game = new Game([snake1, snake2, snake3, snake4]);
-game.play();
+let game1 = new Game([snake1]);
+let game2 = new Game([snake1, snake2]);
+
+function playButton() {
+  if (document.getElementById('numPlayers').value === '1') {
+    game1.play();
+  } else {
+    game2.play();
+  }
+}
